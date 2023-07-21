@@ -1,4 +1,4 @@
-class Details {
+class UserDetails {
     constructor(username, phonenumber, useremail) {
       this.username = username;
       this.phonenumber = phonenumber;
@@ -6,71 +6,71 @@ class Details {
     }
   }
 
-  class Contacts  {
+  class Users  {
     constructor() {
-      this.contacts = this.loadContactsFromLocalStorage();
+      this.details = this.loadUsersFromLocalStorage();
     }
   
-    addContact(username, phonenumber, useremail) {
-      const newContact = new Details(username, phonenumber, useremail);
-      this.contacts.push(newContact);
-      this.saveContactsToLocalStorage();
+    addUser(username, phonenumber, useremail) {
+      const newUser = new UserDetails(username, phonenumber, useremail);
+      this.details.push(newUser);
+      this.saveUsersToLocalStorage();
     }
   
-    updateContact(index, username, phonenumber, useremail) {
-      if (index >= 0 && index < this.contacts.length) {
-        this.contacts[index].username = username;
-        this.contacts[index].phonenumber = phonenumber;
-        this.contacts[index].useremail = useremail;
-        this.saveContactsToLocalStorage();
+    updateUser(index, username, phonenumber, useremail) {
+      if (index >= 0 && index < this.details.length) {
+        this.details[index].username = username;
+        this.details[index].phonenumber = phonenumber;
+        this.details[index].useremail = useremail;
+        this.saveUsersToLocalStorage();
       }
     }
   
-    deleteContact(index) {
-      if (index >= 0 && index < this.contacts.length) {
-        this.contacts.splice(index, 1);
-        this.saveContactsToLocalStorage();
+    deleteUser(index) {
+      if (index >= 0 && index < this.details.length) {
+        this.details.splice(index, 1);
+        this.saveUsersToLocalStorage();
       }
     }
   
-    saveContactsToLocalStorage() {
-      localStorage.setItem('contacts', JSON.stringify(this.contacts));
+    saveUsersToLocalStorage() {
+      localStorage.setItem('contacts', JSON.stringify(this.details));
     }
   
-    loadContactsFromLocalStorage() {
-      const contactsJSON = localStorage.getItem('contacts');
-      return contactsJSON ? JSON.parse(contactsJSON) : [];
+    loadUsersFromLocalStorage() {
+      const detailsJSON = localStorage.getItem('contacts');
+      return detailsJSON ? JSON.parse(detailsJSON) : [];
     }
   
-    displayContacts() {
-      const contactsList = document.querySelector('.contacts-list');
-      contactsList.innerHTML = '';
+    displayUsers() {
+      const detailsList = document.querySelector('.contacts-list');
+      detailsList.innerHTML = '';
   
-      this.contacts.forEach((contact, index) => {
-        const contactDiv = document.createElement('div');
-        contactDiv.classList.add('user');
-        contactDiv.innerHTML = `
+      this.details.forEach((detail, index) => {
+        const detailDiv = document.createElement('div');
+        detailDiv.classList.add('user');
+        detailDiv.innerHTML = `
           <div class="profile">
             <span class="user-profile">
               <img src="images/profile.png" alt="userProfile">
             </span>
             <span class="user-details">
-              <p>${contact.username}</p>
-              <p>${contact.phonenumber}</p>
-              <p>${contact.useremail}</p>
+              <p>${detail.username}</p>
+              <p>${detail.phonenumber}</p>
+              <p>${detail.useremail}</p>
             </span>
           </div>
           <div class="edit-icons">
-            <img class="update" src="images/update.png" alt="updateIcon" onclick="updateContact(${index})">
-            <img class="delete" src="images/delete.jpeg" alt="DeleteIcon" onclick="deleteContact(${index})">
+            <img class="update" src="images/update.png" alt="updateIcon" onclick="updateUser(${index})">
+            <img class="delete" src="images/delete.jpeg" alt="DeleteIcon" onclick="deleteUser(${index})">
           </div>
         `;
-        contactsList.appendChild(contactDiv);
+        detailsList.appendChild(detailDiv);
       });
     }
   }
   
-  const contacts = new Contacts();
+  const details = new Users();
   
   const addButton = document.getElementById('add-contact');
   addButton.addEventListener('click', () => {
@@ -79,8 +79,8 @@ class Details {
     const useremail = document.getElementById('email').value;
   
     if (username && phonenumber && useremail) {
-        contacts.addContact(username, phonenumber, useremail);
-        contacts.displayContacts();
+        details.addUser(username, phonenumber, useremail);
+        details.displayUsers();
   
       document.getElementById('add-name').value = '';
       document.getElementById('phone-number').value = '';
@@ -90,19 +90,19 @@ class Details {
     }
   });
   
-  function updateContact(index) {
-    const contact = contacts.contacts[index];
-    if (contact) {
-      document.getElementById('add-name').value = contact.username;
-      document.getElementById('phone-number').value = contact.phonenumber;
-      document.getElementById('email').value = contact.useremail;
+  function updateUser(index) {
+    const detail = details.details[index];
+    if (detail) {
+      document.getElementById('add-name').value = detail.username;
+      document.getElementById('phone-number').value = detail.phonenumber;
+      document.getElementById('email').value = detail.useremail;
       addButton.textContent = 'Update';
       document.getElementById('contact-index').value = index;
     }
   }
   
-  function deleteContact(index) {
-    contacts.deleteContact(index);
-    contacts.displayContacts();
+  function deleteUser(index) {
+    details.deleteUser(index);
+    details.displayUsers();
   }
   
