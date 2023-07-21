@@ -1,27 +1,27 @@
-class Contact {
-    constructor(name, phoneNumber, email) {
-      this.name = name;
-      this.phoneNumber = phoneNumber;
-      this.email = email;
+class Details {
+    constructor(username, phonenumber, useremail) {
+      this.username = username;
+      this.phonenumber = phonenumber;
+      this.useremail = useremail;
     }
   }
 
-  class ContactManager {
+  class Contacts  {
     constructor() {
       this.contacts = this.loadContactsFromLocalStorage();
     }
   
-    addContact(name, phoneNumber, email) {
-      const newContact = new Contact(name, phoneNumber, email);
+    addContact(username, phonenumber, useremail) {
+      const newContact = new Details(username, phonenumber, useremail);
       this.contacts.push(newContact);
       this.saveContactsToLocalStorage();
     }
   
-    updateContact(index, name, phoneNumber, email) {
+    updateContact(index, username, phonenumber, useremail) {
       if (index >= 0 && index < this.contacts.length) {
-        this.contacts[index].name = name;
-        this.contacts[index].phoneNumber = phoneNumber;
-        this.contacts[index].email = email;
+        this.contacts[index].username = username;
+        this.contacts[index].phonenumber = phonenumber;
+        this.contacts[index].useremail = useremail;
         this.saveContactsToLocalStorage();
       }
     }
@@ -55,9 +55,9 @@ class Contact {
               <img src="images/profile.png" alt="userProfile">
             </span>
             <span class="user-details">
-              <p>${contact.name}</p>
-              <p>${contact.phoneNumber}</p>
-              <p>${contact.email}</p>
+              <p>${contact.username}</p>
+              <p>${contact.phonenumber}</p>
+              <p>${contact.useremail}</p>
             </span>
           </div>
           <div class="edit-icons">
@@ -70,17 +70,17 @@ class Contact {
     }
   }
   
-  const contactManager = new ContactManager();
+  const contacts = new Contacts();
   
   const addButton = document.getElementById('add-contact');
   addButton.addEventListener('click', () => {
-    const name = document.getElementById('add-name').value;
-    const phoneNumber = document.getElementById('phone-number').value;
-    const email = document.getElementById('email').value;
+    const username = document.getElementById('add-name').value;
+    const phonenumber = document.getElementById('phone-number').value;
+    const useremail = document.getElementById('email').value;
   
-    if (name && phoneNumber && email) {
-      contactManager.addContact(name, phoneNumber, email);
-      contactManager.displayContacts();
+    if (username && phonenumber && useremail) {
+        contacts.addContact(username, phonenumber, useremail);
+        contacts.displayContacts();
   
       document.getElementById('add-name').value = '';
       document.getElementById('phone-number').value = '';
@@ -91,18 +91,18 @@ class Contact {
   });
   
   function updateContact(index) {
-    const contact = contactManager.contacts[index];
+    const contact = contacts.contacts[index];
     if (contact) {
-      document.getElementById('add-name').value = contact.name;
-      document.getElementById('phone-number').value = contact.phoneNumber;
-      document.getElementById('email').value = contact.email;
+      document.getElementById('add-name').value = contact.username;
+      document.getElementById('phone-number').value = contact.phonenumber;
+      document.getElementById('email').value = contact.useremail;
       addButton.textContent = 'Update';
       document.getElementById('contact-index').value = index;
     }
   }
   
   function deleteContact(index) {
-    contactManager.deleteContact(index);
-    contactManager.displayContacts();
+    contacts.deleteContact(index);
+    contacts.displayContacts();
   }
   
